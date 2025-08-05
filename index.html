@@ -874,6 +874,68 @@
       color: var(--text-secondary);
     }
 
+    /* Phone & WhatsApp Card Styling */
+.phone-whatsapp-card {
+  position: relative;
+}
+
+.contact-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.contact-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contact-action-btn:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.call-btn:hover {
+  background: #0084ff;
+  color: white;
+  border-color: #0084ff;
+}
+
+.whatsapp-btn:hover {
+  background: #25d366;
+  color: white;
+  border-color: #25d366;
+}
+
+.contact-action-btn i {
+  font-size: 1rem;
+}
+
+@media (max-width: 480px) {
+  .contact-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .contact-action-btn {
+    justify-content: center;
+  }
+}
+
     /* Footer */
     footer {
       background: var(--bg-primary);
@@ -1391,6 +1453,29 @@
             </button>
           </p>
         </div>
+
+        <div class="contact-card phone-whatsapp-card" data-aos="fade-up" data-aos-delay="250">
+          <div class="contact-icon">
+            <i class="bi bi-telephone-fill"></i>
+          </div>
+          <h3 class="contact-title">Phone</h3>
+          <p class="contact-info">
+            <span id="phoneText">+91 97400 85757</span>
+            <button class="copy-btn" onclick="copyPhone()" aria-label="Copy phone number to clipboard">
+              <i class="bi bi-copy"></i>
+            </button>
+          </p>
+          <div class="contact-actions">
+            <a href="tel:+919740085757" class="contact-action-btn call-btn" aria-label="Call this number">
+              <i class="bi bi-telephone"></i>
+              <span>Call</span>
+            </a>
+            <a href="https://wa.me/919740085757" target="_blank" class="contact-action-btn whatsapp-btn" aria-label="Message on WhatsApp">
+              <i class="bi bi-whatsapp"></i>
+              <span>WhatsApp</span>
+            </a>
+          </div>
+        </div>
         
         <a href="https://linkedin.com/in/shrinivasa-ph-bb96a31b5/" target="_blank" class="contact-card" data-aos="fade-up" data-aos-delay="300" aria-label="Visit Shrinivasa PH's LinkedIn profile (opens in new tab)">
           <div class="contact-icon">
@@ -1846,6 +1931,13 @@ function showToast(message) {
   }, 3000);
 }
 
+// Copy phone to clipboard
+function copyPhone() {
+  const phone = document.getElementById('phoneText').textContent;
+  navigator.clipboard.writeText(phone).then(() => {
+    showToast('Phone number copied to clipboard!');
+  });
+}
 
   </script>
 </body>
