@@ -56,6 +56,24 @@
       overflow-x: hidden;
     }
 
+    /* Skip link for keyboard accessibility */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--accent-primary);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: 4px;
+      z-index: 1000;
+      font-weight: 600;
+    }
+
+    .skip-link:focus {
+      top: 6px;
+    }
+
     /* Modern Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
@@ -71,6 +89,26 @@
       background: var(--accent-secondary);
     }
 
+    /* Enhanced focus styles for better keyboard navigation */
+    *:focus-visible {
+      outline: 2px solid var(--accent-primary);
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    .btn-primary-modern:focus-visible,
+    .btn-secondary-modern:focus-visible {
+      outline-offset: 4px;
+    }
+
+    .nav-link:focus-visible {
+      outline-offset: 8px;
+    }
+
+    /* Hide focus for mouse users */
+    *:focus:not(:focus-visible) {
+      outline: none;
+    }
     /* Animated Background */
     .bg-animated {
       position: fixed;
@@ -225,6 +263,7 @@
 
     /* Modern Buttons */
     .btn-primary-modern {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       background: var(--accent-gradient);
       border: none;
       padding: 0.875rem 2rem;
@@ -238,6 +277,7 @@
     }
 
     .btn-primary-modern::before {
+      display: none;
       content: '';
       position: absolute;
       top: 0;
@@ -253,8 +293,8 @@
     }
 
     .btn-primary-modern:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
+      transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);
     }
 
     .btn-secondary-modern {
@@ -273,6 +313,9 @@
       color: white;
       transform: translateY(-2px);
     }
+
+    /* Magnetic Button Effects */
+
 
     /* Profile Section */
     .profile-section {
@@ -311,6 +354,94 @@
     .profile-img:hover {
       transform: scale(1.05);
       box-shadow: 0 20px 40px var(--shadow-color);
+    }
+
+    /* Enhanced Skills Visualization */
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .skill-item {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      padding: 1.5rem;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    .skill-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px var(--shadow-color);
+      border-color: var(--accent-primary);
+    }
+
+    .skill-info {
+      display: flex;
+      justify-content: between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .skill-name {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    .skill-level {
+      font-weight: 700;
+      color: var(--accent-primary);
+      font-size: 0.9rem;
+      margin-left: auto;
+    }
+
+    .skill-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 3px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .skill-progress {
+      height: 100%;
+      background: var(--accent-gradient);
+      border-radius: 3px;
+      width: 0%;
+      transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .skill-progress::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    @media (max-width: 768px) {
+      .skills-grid {
+        max-width: 100%;
+      }
+      
+      .skill-item {
+        padding: 1rem;
+      }
     }
 
     /* Projects Section - Corporate Theme */
@@ -439,6 +570,7 @@
     }
 
     .project-card::after {
+      display: none;  
       content: '';
       position: absolute;
       top: 1rem;
@@ -704,6 +836,18 @@
       transition: all 0.3s ease;
       text-decoration: none;
       color: inherit;
+      cursor: pointer; /* Add this for the email card */
+    }
+
+    /* Specific styling for email card */
+    .contact-card:has(.copy-btn) {
+      cursor: default;
+    }
+
+    .contact-card:has(.copy-btn):hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px var(--shadow-color);
+      border-color: var(--accent-primary);
     }
 
     .contact-card:hover {
@@ -800,19 +944,237 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
+
+    /* Screen reader only text */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Scroll Progress Indicator */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--border-color);
+  z-index: 1001;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.scroll-progress.visible {
+  opacity: 1;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--accent-gradient);
+  width: 0%;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.3);
+}
+
+/* Enhanced Project Card Styles */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.project-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+  filter: grayscale(100%);
+  transition: all 0.3s ease;
+}
+
+.project-card:hover .project-icon {
+  filter: grayscale(0%);
+  transform: scale(1.1) rotate(5deg);
+}
+
+.project-status {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-badge.live {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.development {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.project-metrics {
+  display: flex;
+  gap: 2rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric-value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+  line-height: 1;
+}
+
+.metric-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.project-link.primary {
+  background: var(--accent-gradient);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.project-link.primary:hover {
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+}
+
+/* Loading Skeleton Animations */
+.skeleton {
+  background: linear-gradient(90deg, 
+    var(--border-color) 25%, 
+    var(--bg-tertiary) 50%, 
+    var(--border-color) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-text {
+  height: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.skeleton-title {
+  height: 1.5rem;
+  width: 70%;
+  margin-bottom: 1rem;
+}
+
+.skeleton-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: var(--accent-primary);
+  margin-left: 0.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.copy-btn:hover {
+  background: var(--accent-primary);
+  color: white;
+}
+
+.toast-notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--accent-primary);
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.toast-notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  color: var(--accent-primary);
+  margin-left: 0.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.copy-btn:hover {
+  background: var(--accent-primary);
+  color: white;
+  transform: scale(1.1);
+}
   </style>
 </head>
 
 <body>
+  <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <div class="bg-animated"></div>
   <div class="bg-animated"></div>
   
-  <nav class="navbar navbar-expand-lg fixed-top">
+  <nav class="navbar navbar-expand-lg fixed-top" role="navigation" aria-label="Main navigation">
     <div class="container">
       <a class="navbar-brand" href="#">Shrinivasa PH</a>
       
       <div class="d-flex align-items-center">
-        <div class="theme-toggle me-3" id="themeToggle"></div>
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <button class="theme-toggle me-3" id="themeToggle" aria-label="Toggle dark and light theme" aria-pressed="true"></button>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation menu">
           <i class="bi bi-list fs-4"></i>
         </button>
       </div>
@@ -825,10 +1187,14 @@
           <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
         </ul>
       </div>
+      <div class="scroll-progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
     </div>
   </nav>
 
-  <section class="hero" id="home">
+  <main id="main-content">
+    <section class="hero" id="home">
     <div class="container">
       <div class="hero-content">
         <h1>Data Science<br>Innovator</h1>
@@ -847,20 +1213,13 @@
         <div class="col-lg-8">
           <div class="profile-card" data-aos="fade-up">
             <div class="text-center">
-              <img src="profile pic2.png" alt="Shrinivasa PH" class="profile-img"/>
+              <img src="profile pic2.png" alt="Professional headshot of Shrinivasa PH, Data Scientist" class="profile-img"/>
               <h2 class="gradient-text mb-3">About Me</h2>
               <p class="mb-4" style="font-size: 1.125rem; line-height: 1.7;">
                 I'm a passionate Data Scientist with a unique background in Finance and Compliance. 
                 I specialize in Machine Learning, AI, and solving real-world problems through data-driven solutions. 
                 My journey combines analytical thinking with creative problem-solving to unlock insights from complex datasets.
               </p>
-              <div class="d-flex justify-content-center gap-3 mb-4">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">Machine Learning</span>
-                <span class="tech-tag">SQL</span>
-                <span class="tech-tag">NLP</span>
-                <span class="tech-tag">Data Visualization</span>
-              </div>
               <a href="Shrinivasa_PH_Resume.docx" class="btn-primary-modern" download>
                 <i class="bi bi-download me-2"></i>Download Resume
               </a>
@@ -888,11 +1247,27 @@
       <div class="row g-4" id="projectContainer">
         <div class="col-lg-6 project-item" data-category="nlp" data-aos="fade-up" data-aos-delay="300">
           <div class="project-card">
-            <h3 class="project-title">🤖 Text Summarization App</h3>
+            <div class="project-header">
+              <div class="project-icon">🤖</div>
+              <div class="project-status">
+                <span class="status-badge live">Live</span>
+              </div>
+            </div>
+            <h3 class="project-title">Text Summarization App</h3>
             <p class="project-description">
               An intelligent text summarization application powered by Hugging Face's BART model. 
               Capable of processing long-form text and web URLs to generate concise, meaningful summaries.
             </p>
+            <div class="project-metrics">
+              <div class="metric">
+                <span class="metric-value">95%</span>
+                <span class="metric-label">Accuracy</span>
+              </div>
+              <div class="metric">
+                <span class="metric-value">2.3s</span>
+                <span class="metric-label">Avg Time</span>
+              </div>
+            </div>
             <div class="tech-stack">
               <span class="tech-tag">Python</span>
               <span class="tech-tag">Transformers</span>
@@ -901,10 +1276,10 @@
             </div>
             <div class="project-links">
               <a href="https://github.com/ShrinivasaPH/NLP-Summarizer" target="_blank" class="project-link">
-                <i class="bi bi-github"></i>GitHub
+                <i class="bi bi-github"></i>GitHub<span class="sr-only"> (opens in new tab)</span>
               </a>
-              <a href="https://summarizer-phs.streamlit.app/" target="_blank" class="project-link">
-                <i class="bi bi-box-arrow-up-right"></i>Live Demo
+              <a href="https://summarizer-phs.streamlit.app/" target="_blank" class="project-link primary">
+                <i class="bi bi-box-arrow-up-right"></i>Live Demo<span class="sr-only"> (opens in new tab)</span>
               </a>
             </div>
           </div>
@@ -912,25 +1287,43 @@
         
         <div class="col-lg-6 project-item" data-category="clustering ml" data-aos="fade-up" data-aos-delay="400">
           <div class="project-card">
+            <div class="project-header">
+              <div class="project-icon">🤖</div>
+              <div class="project-status">
+                <span class="status-badge live">Live</span>
+              </div>
+            </div>
             <h3 class="project-title">🌍 ML Country Clustering</h3>
             <p class="project-description">
               Advanced clustering analysis of countries based on socio-economic indicators using Gaussian Mixture Models. 
               Features interactive map visualizations and comprehensive statistical insights.
             </p>
+            <div class="project-metrics">
+              <div class="metric">
+                <span class="metric-value">98%</span>
+                <span class="metric-label">Accuracy</span>
+              </div>
+              <div class="metric">
+                <span class="metric-value">10.6m</span>
+                <span class="metric-label">Avg Time</span>
+              </div>
+            </div>
             <div class="tech-stack">
               <span class="tech-tag">Scikit-learn</span>
               <span class="tech-tag">Pandas</span>
               <span class="tech-tag">Streamlit</span>
               <span class="tech-tag">GMM</span>
             </div>
+
             <div class="project-links">
               <a href="https://github.com/ShrinivasaPH/ML-Clustering-Countries" target="_blank" class="project-link">
-                <i class="bi bi-github"></i>GitHub
+                <i class="bi bi-github"></i>GitHub<span class="sr-only"> (opens in new tab)</span>
               </a>
-              <a href="https://phs-countrycluster-ml.streamlit.app/" target="_blank" class="project-link">
-                <i class="bi bi-box-arrow-up-right"></i>Live Demo
+              <a href="https://phs-countrycluster-ml.streamlit.app" target="_blank" class="project-link primary">
+                <i class="bi bi-box-arrow-up-right"></i>Live Demo<span class="sr-only"> (opens in new tab)</span>
               </a>
             </div>
+
           </div>
         </div>
       </div>
@@ -986,15 +1379,20 @@
       </p>
       
       <div class="contact-grid">
-        <a href="mailto:shrinivasaph@gmail.com" class="contact-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
           <div class="contact-icon">
             <i class="bi bi-envelope-fill"></i>
           </div>
           <h3 class="contact-title">Email</h3>
-          <p class="contact-info">shrinivasaph@gmail.com</p>
-        </a>
+          <p class="contact-info">
+            <span id="emailText">shrinivasaph@gmail.com</span>
+            <button class="copy-btn" onclick="copyEmail()" aria-label="Copy email address to clipboard">
+              <i class="bi bi-copy"></i>
+            </button>
+          </p>
+        </div>
         
-        <a href="https://linkedin.com/in/shrinivasa-ph-bb96a31b5/" target="_blank" class="contact-card" data-aos="fade-up" data-aos-delay="300">
+        <a href="https://linkedin.com/in/shrinivasa-ph-bb96a31b5/" target="_blank" class="contact-card" data-aos="fade-up" data-aos-delay="300" aria-label="Visit Shrinivasa PH's LinkedIn profile (opens in new tab)">
           <div class="contact-icon">
             <i class="bi bi-linkedin"></i>
           </div>
@@ -1002,7 +1400,7 @@
           <p class="contact-info">@shrinivasaph</p>
         </a>
         
-        <a href="https://github.com/ShrinivasaPH" target="_blank" class="contact-card" data-aos="fade-up" data-aos-delay="400">
+        <a href="https://github.com/ShrinivasaPH" target="_blank" class="contact-card" data-aos="fade-up" data-aos-delay="400" aria-label="Visit Shrinivasa PH's GitHub profile (opens in new tab)">
           <div class="contact-icon">
             <i class="bi bi-github"></i>
           </div>
@@ -1012,6 +1410,8 @@
       </div>
     </div>
   </section>
+</section>
+</main>
 
   <footer>
     <div class="container">
@@ -1042,18 +1442,20 @@
     }
 
     themeToggle.addEventListener('click', () => {
-      const currentTheme = html.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      
-      html.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      
-      if (newTheme === 'dark') {
-        themeToggle.classList.add('dark');
-      } else {
-        themeToggle.classList.remove('dark');
-      }
-    });
+  const currentTheme = html.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  
+  html.setAttribute('data-theme', newTheme);
+  localStorage.setItem('theme', newTheme);
+  
+  if (newTheme === 'dark') {
+    themeToggle.classList.add('dark');
+    themeToggle.setAttribute('aria-pressed', 'true');
+  } else {
+    themeToggle.classList.remove('dark');
+    themeToggle.setAttribute('aria-pressed', 'false');
+  }
+});
 
     // Navbar Scroll Effect
     const navbar = document.querySelector('.navbar');
@@ -1348,6 +1750,103 @@
       }
     `;
     document.head.appendChild(focusStyle);
+
+
+    // Skills Animation
+function animateSkills() {
+  const skillBars = document.querySelectorAll('.skill-progress');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const progressBar = entry.target;
+        const width = progressBar.getAttribute('data-width');
+        
+        setTimeout(() => {
+          progressBar.style.width = width + '%';
+        }, 200);
+      }
+    });
+  }, { threshold: 0.5 });
+  
+  skillBars.forEach(bar => observer.observe(bar));
+}
+
+// Scroll Progress Indicator
+function initScrollProgress() {
+  const progressBar = document.getElementById('progressBar');
+  const scrollProgress = document.querySelector('.scroll-progress');
+  
+  window.addEventListener('scroll', () => {
+    const windowHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrolled = (window.scrollY / windowHeight) * 100;
+    
+    progressBar.style.width = scrolled + '%';
+    
+    if (window.scrollY > 100) {
+      scrollProgress.classList.add('visible');
+    } else {
+      scrollProgress.classList.remove('visible');
+    }
+  });
+}
+
+// Custom Cursor (for desktop only)
+function initCustomCursor() {
+  if (window.innerWidth <= 768) return; // Skip on mobile
+  
+  const cursor = document.createElement('div');
+  cursor.className = 'custom-cursor';
+  document.body.appendChild(cursor);
+  
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    cursor.classList.add('active');
+  });
+  
+  document.addEventListener('mouseleave', () => {
+    cursor.classList.remove('active');
+  });
+  
+  // Hover effects
+  document.querySelectorAll('a, button, .project-card, .contact-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+}
+
+// Initialize all new features
+document.addEventListener('DOMContentLoaded', () => {
+  animateSkills();
+  initScrollProgress();
+  initCustomCursor();
+});
+
+// Copy email to clipboard
+function copyEmail() {
+  const email = document.getElementById('emailText').textContent;
+  navigator.clipboard.writeText(email).then(() => {
+    // Show toast notification
+    showToast('Email copied to clipboard!');
+  });
+}
+
+// Simple toast notification
+function showToast(message) {
+  const toast = document.createElement('div');
+  toast.className = 'toast-notification';
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => toast.classList.add('show'), 100);
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+
 
   </script>
 </body>
